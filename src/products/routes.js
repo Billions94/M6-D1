@@ -15,4 +15,6 @@ productsRouter.get('/', productsHandler.getAll)
 
 productsRouter.post('/', productsHandler.createProducts)
 
+productsRouter.route('/:id').get(productsHandler.getById).put(productsHandler.updateProductById).delete(productsHandler.deleteproductsById)
+
 export default productsRouter
