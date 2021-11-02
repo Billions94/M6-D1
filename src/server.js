@@ -3,9 +3,8 @@ import cors from "cors";
 import listEndpoints from "express-list-endpoints";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import reviewsRouter from "./reviews/routes.js";
+import productsRouter from "./apis/products/routes.js"
 import createDefaultTables from "./db/createTables.js";
-import productsRouter from "./products/routes.js"
 import {
   badRequest,
   unAuthorized,
@@ -20,13 +19,12 @@ const dname = dirname(fname);
 const publicDirectory = path.join(dname, "../public");
 
 const server = express();
-const port = 3010;
+
 
 server.use(cors());
 server.use(express.json());
 server.use(express.static(publicDirectory));
 
-server.use("/reviews", reviewsRouter);
 server.use("/products", productsRouter);
 
 

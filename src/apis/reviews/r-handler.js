@@ -1,4 +1,4 @@
-import pool from "../db/connect.js"
+import pool from "../../db/connect.js"
 
 const getAll = async (_req, res, _next) => {
     try {
@@ -14,14 +14,7 @@ const getAll = async (_req, res, _next) => {
       const data = await pool.query("SELECT * FROM reviews WHERE id=$1", [
         req.params.id,
       ]);
-      /**
-       *
-       *  data.rows is an array of objects
-       * if its empty it means no match!
-       * we check if its empty we will send 404
-       * else we will send first object found as response
-       */
-  
+
       if (data.rows.length === 0) {
         res.status(400).send("User not found");
       } else {
@@ -36,7 +29,7 @@ const getAll = async (_req, res, _next) => {
     try {
       const { comment, rate, product_id } = req.body;
       const data = await pool.query(
-        'INSERT INTO reviews(comment,rate,product_id) VALUES($1,$2,$3) RETURNING *;',
+        'INSERT INTO reviews(comment, rate, product_id) VALUES($1,$2,$3) RETURNING *;',
         [comment, rate, product_id]
       );
   
@@ -48,10 +41,10 @@ const getAll = async (_req, res, _next) => {
   
   const updateReviewById = async (req, res, next) => {
     try {
-        const { comment, rate, brand, product_id } = req.body;
+        const { comment, rate, product_id } = req.body;
       const data = await pool.query(
         "UPDATE reviews SET name=$1,last_name=$2,email=$3 WHERE id=$4 RETURNING *;",
-        [name, last_name, email, req.params.id]
+        [comment, rate, product_id, req.params.reviewId]
       );
       res.send(data.rows[0]);
     } catch (error) {
@@ -59,9 +52,9 @@ const getAll = async (_req, res, _next) => {
     }
   };
   
-  const deleteReviewsById = async (req, res, next) => {
+  const deleteReviewById = async (req, res, next) => {
     try {
-      await pool.query("DELETE FROM reviews WHERE id=$1", [req.params.id]);
+      await pool.query("DELETE FROM reviews WHERE id=$1", [req.params.reviewId]);
       res.status(204).send();
     } catch (error) {
       res.status(400).send(error.message);
@@ -73,7 +66,7 @@ const getAll = async (_req, res, _next) => {
     getById,
     createReview,
     updateReviewById,
-    deleteReviewsById,
+    deleteReviewById,
   };
   
   export default reviewsHandler;

@@ -7,14 +7,11 @@ const { readFile, writeFile} = fs
 export const dataFolderPath = join(dirname(fileURLToPath(import.meta.url)), '../data')
 console.log(dataFolderPath)
 
-const reviewsSQLPath = join(dataFolderPath, 'reviews.sql')
-console.log(reviewsSQLPath)
-const productsSQLPath = join(dataFolderPath, 'products.sql')
-console.log(productsSQLPath)
+const tablesSQLPath = join(dataFolderPath, 'tables.sql')
+console.log(tablesSQLPath)
 
-export const getReviews = () => readFile(reviewsSQLPath)
-export const writeReviews = content => writeFile(reviewsSQLPath, content)
 
-export const getProducts = () => readFile(productsSQLPath)
-export const writeProducts = content => writeFile(productsSQLPath, content)
+export const getTables = () => readFile(tablesSQLPath)
+export const writeTables = content => writeFile(tablesSQLPath, content)
+
 

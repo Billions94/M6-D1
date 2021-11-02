@@ -5,7 +5,7 @@ import * as db from './db.js'
 const createDefaultTables = async () => {
   try {
     // Read the tables.sql file as buffer
-    const buffer = await db.getProducts()
+    const buffer = await db.getTables()
     // Convert buffer to string
     const tablesSQLQuery = buffer.toString();
     // execute query

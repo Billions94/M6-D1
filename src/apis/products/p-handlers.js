@@ -1,4 +1,5 @@
-import pool from "../db/connect.js"
+import pool from "../../db/connect.js"
+import path from "path"
 
 const getAll = async (_req, res, _next) => {
     try {
@@ -9,18 +10,26 @@ const getAll = async (_req, res, _next) => {
     }
   };
   
+  const productImgCloud = async (req, res, _next) => {
+    try {
+      const cloudImg = req.file.path;
+      const { name, description, brand, image_url, price, category } = req.body;
+      const data = await pool.query(
+        `INSERT INTO products( name, description, brand, image_url, price, category) VALUES( '${name}', '${description}', '${brand}', '${cloudImg}','${price}','${category}') RETURNING *;`
+        /* [name, last_name, email] */
+      );
+  
+      res.send(data.rows[0]);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  };
+
   const getById = async (req, res, _next) => {
     try {
       const data = await pool.query("SELECT * FROM products WHERE id=$1", [
         req.params.id,
       ]);
-      /**
-       *
-       *  data.rows is an array of objects
-       * if its empty it means no match!
-       * we check if its empty we will send 404
-       * else we will send first object found as response
-       */
   
       if (data.rows.length === 0) {
         res.status(400).send("Product not found");
@@ -58,6 +67,24 @@ const getAll = async (_req, res, _next) => {
       res.status(400).send(error.message);
     }
   };
+
+
+  const addProductImage = async (req, res, next) => {
+    try {
+      const cover = req.file.path;
+  
+      const data = await pool.query(
+        "UPDATE products SET image_url=$1 WHERE id=$2 RETURNING *;",
+        [cover, req.params.id]
+      );
+  
+      res.send(data.rows[0]);
+    } catch (error) {
+      next(error);
+      console.log(error);
+    }
+  };
+
   
   const deleteproductsById = async (req, res, next) => {
     try {
@@ -73,6 +100,8 @@ const getAll = async (_req, res, _next) => {
     getById,
     createProducts,
     updateProductById,
+    productImgCloud,
+    addProductImage,
     deleteproductsById,
   };
   
