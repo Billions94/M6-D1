@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS
     );
 
 CREATE TABLE IF NOT EXISTS
-    reviews (
-        id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        comment VARCHAR(250) NOT NULL,
-        rate SMALLINT NOT NULL,
-        product_id VARCHAR(100) NOT NULL,
-        created_at TIMESTAMPTZ DEFAULT NOW()   
-    );
+	reviews(
+		comment VARCHAR(500) NOT NULL,
+		rate INTEGER NOT NULL,
+		product_id INTEGER REFERENCES products (id),
+		created_at TIMESTAMPTZ DEFAULT NOW(),
+		id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY
+	);
