@@ -42,10 +42,13 @@ productsRouter
 
 
 productsRouter
-  .route("/:productId/reviews")
+  .route("/:id/reviews")
   .get(reviewsHandler.getById)
   .post(reviewsHandler.createReview);
 
+productsRouter
+  .route("/:id/reviews")
+  .get(reviewsHandler.getById)
 
   
 productsRouter

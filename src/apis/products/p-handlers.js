@@ -1,5 +1,4 @@
 import pool from "../../db/connect.js"
-import path from "path"
 
 const getAll = async (_req, res, _next) => {
     try {

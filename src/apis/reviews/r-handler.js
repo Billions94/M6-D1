@@ -16,7 +16,7 @@ const getAll = async (_req, res, _next) => {
       ]);
 
       if (data.rows.length === 0) {
-        res.status(400).send("User not found");
+        res.status(400).send("Review not found");
       } else {
         res.send(data.rows[0]);
       }
@@ -30,7 +30,7 @@ const getAll = async (_req, res, _next) => {
       const { comment, rate } = req.body;
       const data = await pool.query(
         'INSERT INTO reviews(comment, rate, product_id) VALUES($1,$2,$3) RETURNING *;',
-        [comment, rate, req.params.productId]
+        [comment, rate, req.params.id]
       );
   
       res.send(data.rows[0]);
@@ -43,10 +43,10 @@ const getAll = async (_req, res, _next) => {
   
   const updateReviewById = async (req, res, next) => {
     try {
-        const { comment, rate, product_id } = req.body;
+        const { comment, rate } = req.body;
       const data = await pool.query(
         "UPDATE reviews SET comment=$1,rate=$2,product_id=$3 WHERE id=$4 RETURNING *;",
-        [comment, rate, product_id, req.params.reviewId]
+        [comment, rate, req.params.id, req.params.reviewId]
       );
       res.send(data.rows[0]);
     } catch (error) {
