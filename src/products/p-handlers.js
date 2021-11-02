@@ -48,10 +48,10 @@ const getAll = async (_req, res, _next) => {
   
   const updateProductById = async (req, res, next) => {
     try {
-        const { comment, rate, brand, product_id } = req.body;
+        const { name, description, brand, image_url, price, category } = req.body;
       const data = await pool.query(
-        "UPDATE products SET comment=$1,last_name=$2,email=$3 WHERE id=$4 RETURNING *;",
-        [name, last_name, email, req.params.id]
+        "UPDATE products SET name=$1, description=$2, brand=$3, image_url=$4, price=$5, category=$6 WHERE id=$7 RETURNING *;",
+        [name, description, brand, image_url, price, category, req.params.id]
       );
       res.send(data.rows[0]);
     } catch (error) {
