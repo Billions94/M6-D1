@@ -14,6 +14,8 @@ import { v2 as cloudinary } from "cloudinary"
 
 const productsRouter = express.Router();
 
+
+// PRODUCT SECTION
 const cloudinaryStorage = new CloudinaryStorage({
     cloudinary, // CREDENTIALS, 
     params: {
@@ -40,6 +42,7 @@ productsRouter
   .put(productsHandler.updateProductById)
   .delete(productsHandler.deleteproductsById);
 
+// REVIEWS SECTION
 
 productsRouter
   .route("/:id/reviews")

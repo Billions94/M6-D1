@@ -11,14 +11,14 @@ const getAll = async (_req, res, _next) => {
   
   const getById = async (req, res, _next) => {
     try {
-      const data = await pool.query("SELECT * FROM reviews WHERE id=$1", [
+      const data = await pool.query("SELECT * FROM reviews WHERE product_id=$1", [
         req.params.id,
       ]);
 
       if (data.rows.length === 0) {
         res.status(400).send("Review not found");
       } else {
-        res.send(data.rows[0]);
+        res.send(data.rows);
       }
     } catch (error) {
       res.status(400).send(error.message);
